@@ -1,0 +1,1429 @@
+/* ==========================================================================
+   Hostel & Campus Management App - Glassmorphism Design System
+   ========================================================================== */
+
+:root {
+  /* Brand Palettes */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: rgba(239, 246, 255, 0.8);
+  --primary-glow: rgba(37, 99, 235, 0.25);
+  
+  --secondary: #475569;
+  --success: #10b981;
+  --success-glow: rgba(16, 185, 129, 0.25);
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --danger-glow: rgba(239, 68, 68, 0.25);
+  
+  /* Glassmorphic Surfaces */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-bg-hover: rgba(255, 255, 255, 0.82);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.45);
+  --glass-bg-card: rgba(255, 255, 255, 0.68);
+  --glass-bg-solid: rgba(255, 255, 255, 0.92);
+  
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --glass-border-subtle: rgba(255, 255, 255, 0.5);
+  --glass-border-color: rgba(226, 232, 240, 0.6);
+  
+  --glass-blur: blur(20px) saturate(180%);
+  --glass-blur-sm: blur(12px) saturate(160%);
+  --glass-blur-lg: blur(30px) saturate(190%);
+  
+  /* Text */
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-light: #94a3b8;
+  
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+  
+  /* Glass Shadows */
+  --glass-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  --glass-shadow: 0 10px 30px -5px rgba(31, 38, 135, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 2px rgba(255, 255, 255, 0.85);
+  --glass-shadow-hover: 0 16px 36px -4px rgba(31, 38, 135, 0.14), 0 6px 16px rgba(0, 0, 0, 0.04), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  --glass-shadow-lg: 0 25px 50px -12px rgba(31, 38, 135, 0.16), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 30%, #f3e8ff 60%, #e0f2fe 85%, #f8fafc 100%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   Ambient Glassmorphism Aurora Glow Shapes (Floating in Background)
+   ========================================================================== */
+.glass-bg-orb {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(85px);
+  opacity: 0.55;
+  animation: floatOrb 18s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.5) 0%, rgba(168, 85, 247, 0.25) 70%, transparent 100%);
+  top: -100px;
+  right: -80px;
+}
+
+.orb-2 {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.5) 0%, rgba(59, 130, 246, 0.25) 70%, transparent 100%);
+  bottom: -120px;
+  left: -100px;
+  animation-duration: 22s;
+  animation-delay: -5s;
+}
+
+.orb-3 {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, rgba(244, 114, 182, 0.2) 70%, transparent 100%);
+  top: 40%;
+  right: 15%;
+  animation-duration: 20s;
+  animation-delay: -10s;
+}
+
+.orb-4 {
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.4) 0%, rgba(16, 185, 129, 0.2) 70%, transparent 100%);
+  top: 20%;
+  left: 10%;
+  animation-duration: 25s;
+}
+
+@keyframes floatOrb {
+  0% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(30px) scale(1.06); }
+  100% { transform: translateY(-20px) scale(0.95); }
+}
+
+/* ==========================================================================
+   Header & Navigation - Frosted Glass Bar
+   ========================================================================== */
+.app-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 4px 24px rgba(31, 38, 135, 0.06);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+  color: var(--text-main);
+}
+
+.brand-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+  font-size: 1.3rem;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.brand-text h1 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-text span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: block;
+  font-weight: 500;
+}
+
+/* Nav Tabs - Frosted Container */
+.nav-tabs {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  padding: 0.3rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow-sm);
+  gap: 0.25rem;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.nav-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.nav-tab-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.nav-tab-btn.active {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--primary);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.15), inset 0 1px 1px rgba(255, 255, 255, 1);
+}
+
+.nav-tab-btn .badge-count {
+  background: rgba(226, 232, 240, 0.8);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+
+.nav-tab-btn.active .badge-count {
+  background: rgba(37, 99, 235, 0.15);
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   Main Content Layout
+   ========================================================================== */
+.main-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.25rem 1.5rem;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.page-section {
+  display: none;
+  animation: glassFadeIn 0.3s ease-out;
+}
+
+.page-section.active {
+  display: block;
+}
+
+@keyframes glassFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Section Header */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.section-title h2 {
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+}
+
+.section-title p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+.section-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Buttons & Inputs - Glassmorphic
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  color: var(--secondary);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow-sm);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--text-main);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 4px 16px var(--success-glow), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 6px 20px var(--success-glow);
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: rgba(254, 242, 242, 0.75);
+  backdrop-filter: blur(8px);
+  color: var(--danger);
+  border: 1px solid rgba(254, 202, 202, 0.8);
+  box-shadow: var(--glass-shadow-sm);
+}
+
+.btn-danger:hover {
+  background: #fee2e2;
+  border-color: var(--danger);
+  box-shadow: 0 6px 16px var(--danger-glow);
+  transform: translateY(-1px);
+}
+
+.btn-sm {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+}
+
+/* Search Bar - Glass Input */
+.search-wrapper {
+  position: relative;
+  min-width: 250px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.6rem 0.85rem 0.6rem 2.4rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  font-family: inherit;
+  font-size: 0.875rem;
+  outline: none;
+  box-shadow: var(--glass-shadow-sm);
+  transition: var(--transition);
+}
+
+.search-input:focus {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15), var(--glass-shadow-sm);
+}
+
+/* Category Filter Pills - Frosted Glass */
+.filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.25rem 0 1.25rem 0;
+}
+
+.pill-btn {
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  font-family: inherit;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  box-shadow: var(--glass-shadow-sm);
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.pill-btn:hover {
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.pill-btn.active {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* ==========================================================================
+   Page 1: Contacts Directory (Glass Cards)
+   ========================================================================== */
+.contacts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.contact-card {
+  background: var(--glass-bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--glass-shadow);
+  transition: var(--transition);
+}
+
+.contact-card:hover {
+  background: var(--glass-bg-hover);
+  box-shadow: var(--glass-shadow-hover);
+  border-color: rgba(255, 255, 255, 0.95);
+  transform: translateY(-3px);
+}
+
+.contact-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.contact-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.category-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-full);
+  text-transform: capitalize;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+/* Category specific glass colors */
+.tag-electrician { background: rgba(254, 243, 199, 0.75); color: #b45309; }
+.tag-driver { background: rgba(219, 234, 254, 0.75); color: #1d4ed8; }
+.tag-plumber { background: rgba(207, 250, 254, 0.75); color: #0e7490; }
+.tag-warden { background: rgba(243, 232, 255, 0.75); color: #6b21a8; }
+.tag-doctor { background: rgba(255, 228, 230, 0.75); color: #be123c; }
+.tag-security { background: rgba(224, 231, 255, 0.75); color: #3730a3; }
+.tag-canteen { background: rgba(255, 237, 213, 0.75); color: #c2410c; }
+.tag-general { background: rgba(241, 245, 249, 0.75); color: #475569; }
+
+.contact-body {
+  margin-bottom: 1.25rem;
+}
+
+.contact-info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 0.45rem;
+}
+
+.contact-phone-primary {
+  font-weight: 700;
+  color: var(--text-main);
+  font-size: 1.05rem;
+}
+
+.contact-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-top: 1px solid rgba(226, 232, 240, 0.6);
+  padding-top: 0.85rem;
+  margin-top: auto;
+}
+
+.contact-actions .btn {
+  flex: 1;
+}
+
+/* ==========================================================================
+   Page 2: Files & Documents (Glass Dropzone & Cards)
+   ========================================================================== */
+.upload-dropzone {
+  border: 2px dashed rgba(147, 197, 253, 0.7);
+  border-radius: var(--radius-xl);
+  padding: 2.75rem 1.5rem;
+  text-align: center;
+  background: var(--glass-bg-subtle);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 1.75rem;
+  box-shadow: var(--glass-shadow-sm);
+}
+
+.upload-dropzone:hover, .upload-dropzone.dragover {
+  border-color: var(--primary);
+  background: rgba(239, 246, 255, 0.7);
+  transform: scale(1.01);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.12);
+}
+
+.upload-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 0.85rem auto;
+  color: var(--primary);
+  filter: drop-shadow(0 4px 10px rgba(37, 99, 235, 0.3));
+}
+
+.upload-text h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.upload-text p {
+  font-size: 0.825rem;
+  color: var(--text-muted);
+}
+
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.35rem;
+}
+
+.file-card {
+  background: var(--glass-bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition);
+}
+
+.file-card:hover {
+  background: var(--glass-bg-hover);
+  box-shadow: var(--glass-shadow-hover);
+  border-color: rgba(255, 255, 255, 0.95);
+  transform: translateY(-3px);
+}
+
+.file-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.file-icon-box {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--glass-shadow-sm);
+}
+
+.icon-pdf { background: rgba(254, 226, 226, 0.85); color: #dc2626; }
+.icon-excel { background: rgba(209, 250, 229, 0.85); color: #059669; }
+.icon-word { background: rgba(219, 234, 254, 0.85); color: #2563eb; }
+.icon-other { background: rgba(241, 245, 249, 0.85); color: #475569; }
+
+.file-details {
+  overflow: hidden;
+}
+
+.file-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.file-actions {
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid rgba(226, 232, 240, 0.6);
+  padding-top: 0.85rem;
+  margin-top: 1.15rem;
+}
+
+.file-actions .btn {
+  flex: 1;
+}
+
+/* ==========================================================================
+   Page 3: Hostel Page (3 Batches)
+   ========================================================================== */
+.batch-tabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  padding: 0.35rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow-sm);
+  gap: 0.35rem;
+  margin-bottom: 1.75rem;
+  overflow-x: auto;
+}
+
+.batch-btn {
+  flex: 1;
+  min-width: 130px;
+  padding: 0.65rem 1rem;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-full);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.batch-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.batch-btn.active {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.students-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+.student-card {
+  background: var(--glass-bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.student-card:hover {
+  background: var(--glass-bg-hover);
+  box-shadow: var(--glass-shadow-hover);
+  border-color: rgba(255, 255, 255, 0.95);
+  transform: translateY(-3px);
+}
+
+.student-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+  margin-bottom: 1.15rem;
+}
+
+.student-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  background: rgba(241, 245, 249, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.student-info-main {
+  flex: 1;
+  overflow: hidden;
+}
+
+.student-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.student-course {
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+
+.student-badge-row {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.45rem;
+}
+
+.batch-badge {
+  font-size: 0.725rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  background: rgba(224, 231, 255, 0.8);
+  color: #3730a3;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.room-badge {
+  font-size: 0.725rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  background: rgba(241, 245, 249, 0.8);
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.contact-section-box {
+  background: rgba(248, 250, 252, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.phone-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.phone-label {
+  color: var(--text-muted);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.phone-num {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.phone-call-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--glass-border);
+  color: var(--success);
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: var(--transition);
+}
+
+.phone-call-btn:hover {
+  background: var(--success);
+  color: #ffffff;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px var(--success-glow);
+}
+
+.student-footer-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   Page 4: Student Count - SIGNATURE GLASSMORPHISM MODEL
+   Strictly Faithful to User's Wireframe with Radiant Frosted Glass Aesthetics
+   ========================================================================== */
+.counter-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 520px;
+  padding: 2rem 1rem;
+}
+
+/* Signature Frosted Glass Counter Card */
+.counter-card-frame {
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: var(--glass-blur-lg);
+  -webkit-backdrop-filter: var(--glass-blur-lg);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-xl);
+  padding: 3rem 3.5rem;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 25px 60px -10px rgba(31, 38, 135, 0.18), 
+              0 10px 25px rgba(0, 0, 0, 0.04),
+              inset 0 1px 3px rgba(255, 255, 255, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glass card subtle top illumination shine */
+.counter-card-frame::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.95) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+.counter-main-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 2.25rem;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.06));
+}
+
+.counter-rows-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.85rem;
+  width: 100%;
+  align-items: center;
+}
+
+.counter-row-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.counter-label {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.counter-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.75rem;
+}
+
+/* Frosted Glass Wireframe Button: [-] and [+] */
+.btn-count-adjust {
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-md);
+  color: #0f172a;
+  font-size: 1.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 1);
+  transition: var(--transition);
+  user-select: none;
+}
+
+.btn-count-adjust:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px) scale(1.08);
+}
+
+.btn-count-adjust:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* Frosted Glass Middle Count Display Box */
+.count-display-box {
+  width: 64px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.count-display-box:focus-within {
+  background: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.count-display-box input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #0f172a;
+  text-align: center;
+}
+
+/* Remove default spin arrows */
+.count-display-box input::-webkit-outer-spin-button,
+.count-display-box input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.count-display-box input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Grand Total Row - Highlighted Glassmorphic Bar */
+.grand-total-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.75rem;
+  margin-top: 2.75rem;
+  width: 100%;
+  padding: 1.15rem 1.5rem;
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.85) 0%, rgba(224, 231, 255, 0.65) 50%, rgba(240, 253, 250, 0.75) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(165, 180, 252, 0.75);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+}
+
+.grand-total-label {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #1e1b4b;
+  letter-spacing: -0.01em;
+}
+
+.grand-total-box {
+  min-width: 100px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #2563eb;
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25), inset 0 1px 2px rgba(255, 255, 255, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.25rem;
+}
+
+.grand-total-val {
+  font-size: 1.95rem;
+  font-weight: 900;
+  color: #1d4ed8;
+  letter-spacing: -0.02em;
+}
+
+/* Counter Toolbar */
+.counter-toolbar {
+  display: flex;
+  gap: 0.85rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   Headcount History Table - Glass Card
+   ========================================================================== */
+.history-section {
+  max-width: 740px;
+  margin: 2.75rem auto 0 auto;
+  width: 100%;
+}
+
+.history-card {
+  background: var(--glass-bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  box-shadow: var(--glass-shadow);
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+}
+
+.history-table th {
+  text-align: left;
+  padding: 0.85rem;
+  border-bottom: 2px solid rgba(226, 232, 240, 0.8);
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.history-table td {
+  padding: 0.85rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+/* ==========================================================================
+   Modals & Dialogs - Frosted Glass Popup
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+  animation: glassFadeIn 0.2s ease;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: var(--glass-blur-lg);
+  -webkit-backdrop-filter: var(--glass-blur-lg);
+  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 1);
+  border: 1.5px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 1.35rem 1.65rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.modal-close-btn {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--glass-border);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.modal-close-btn:hover {
+  background: #ffffff;
+  color: var(--text-main);
+}
+
+.modal-body {
+  padding: 1.65rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.45rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.65rem 0.95rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: var(--transition);
+}
+
+.form-control:focus {
+  background: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.modal-footer {
+  padding: 1.15rem 1.65rem;
+  border-top: 1px solid rgba(226, 232, 240, 0.6);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  background: rgba(248, 250, 252, 0.5);
+}
+
+/* Image preview in modal */
+.photo-upload-preview-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.15rem;
+}
+
+.preview-avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  border: 2px dashed rgba(147, 197, 253, 0.8);
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* ==========================================================================
+   Toasts & Alerts - Glass Pills
+   ========================================================================== */
+.toast-container {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.toast {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #ffffff;
+  padding: 0.85rem 1.35rem;
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  pointer-events: auto;
+  animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast.toast-success {
+  background: rgba(5, 150, 105, 0.9);
+  box-shadow: 0 12px 30px rgba(5, 150, 105, 0.3);
+}
+
+.toast.toast-danger {
+  background: rgba(220, 38, 38, 0.9);
+  box-shadow: 0 12px 30px rgba(220, 38, 38, 0.3);
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  background: var(--glass-bg-subtle);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-xl);
+  border: 1.5px dashed rgba(203, 213, 225, 0.8);
+  grid-column: 1 / -1;
+  box-shadow: var(--glass-shadow-sm);
+}
+
+.empty-icon {
+  font-size: 2.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.empty-state h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.empty-state p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .header-container {
+    padding: 0.75rem 1rem;
+  }
+  
+  .nav-tabs {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-tab-btn {
+    padding: 0.45rem 0.65rem;
+    font-size: 0.8rem;
+  }
+
+  .counter-card-frame {
+    padding: 2rem 1.25rem;
+  }
+
+  .counter-controls {
+    gap: 1.15rem;
+  }
+
+  .btn-count-adjust {
+    width: 46px;
+    height: 46px;
+    font-size: 1.5rem;
+  }
+
+  .count-display-box {
+    width: 56px;
+    height: 46px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
