@@ -159,6 +159,18 @@ class HostelManager {
   }
 
   async load() {
+    if (window.appDB && window.appDB.isCloud) {
+      window.appDB.subscribe('students', (cloudItems) => {
+        if (cloudItems) {
+          this.students = cloudItems;
+          this.render();
+          this.updateTabBadge();
+          this.updateBatchCounts();
+          if (window.app && window.app.updateHomeStats) window.app.updateHomeStats();
+        }
+      });
+    }
+
     let list = await window.appDB.getAll('students');
     if (!list || list.length === 0) {
       for (const item of DEFAULT_STUDENTS) {
@@ -170,6 +182,7 @@ class HostelManager {
     this.render();
     this.updateTabBadge();
     this.updateBatchCounts();
+    if (window.app && window.app.updateHomeStats) window.app.updateHomeStats();
   }
 
   updateTabBadge() {

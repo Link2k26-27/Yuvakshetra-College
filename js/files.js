@@ -124,6 +124,17 @@ class FilesManager {
   }
 
   async load() {
+    if (window.appDB && window.appDB.isCloud) {
+      window.appDB.subscribe('files', (cloudItems) => {
+        if (cloudItems) {
+          this.files = cloudItems;
+          this.render();
+          this.updateTabBadge();
+          if (window.app && window.app.updateHomeStats) window.app.updateHomeStats();
+        }
+      });
+    }
+
     let list = await window.appDB.getAll('files');
     if (!list || list.length === 0) {
       for (const item of DEFAULT_FILES) {
@@ -134,6 +145,7 @@ class FilesManager {
     this.files = list;
     this.render();
     this.updateTabBadge();
+    if (window.app && window.app.updateHomeStats) window.app.updateHomeStats();
   }
 
   updateTabBadge() {

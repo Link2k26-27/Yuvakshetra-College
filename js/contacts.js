@@ -121,6 +121,17 @@ class ContactsManager {
   }
 
   async load() {
+    if (window.appDB && window.appDB.isCloud) {
+      window.appDB.subscribe('contacts', (cloudItems) => {
+        if (cloudItems) {
+          this.contacts = cloudItems;
+          this.render();
+          this.updateTabBadge();
+          if (window.app && window.app.updateHomeStats) window.app.updateHomeStats();
+        }
+      });
+    }
+
     let list = await window.appDB.getAll('contacts');
     if (!list || list.length === 0) {
       for (const item of DEFAULT_CONTACTS) {
@@ -131,6 +142,7 @@ class ContactsManager {
     this.contacts = list;
     this.render();
     this.updateTabBadge();
+    if (window.app && window.app.updateHomeStats) window.app.updateHomeStats();
   }
 
   updateTabBadge() {
