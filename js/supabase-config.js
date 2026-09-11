@@ -1,9 +1,14 @@
 /** Supabase connection and password authentication manager. */
-const DEFAULT_SUPABASE_CONFIG = { url: '', anonKey: '' };
+// The publishable key is safe to ship in a browser app. Database access remains
+// protected by Supabase Authentication and Row Level Security policies.
+const DEFAULT_SUPABASE_CONFIG = {
+  url: 'https://nfqcdzcjchxxlsurhfsp.supabase.co',
+  anonKey: 'sb_publishable_87wTv_CyQexueFmyu0a0DQ_Gb0s6o1d'
+};
 
 class CloudManager {
   constructor() { this.supabase = null; this.isConfigured = false; this.session = null; this.config = this.loadConfig(); }
-  loadConfig() { try { return { ...DEFAULT_SUPABASE_CONFIG, ...JSON.parse(localStorage.getItem('yuvakshetra_supabase_config') || '{}') }; } catch (_) { return DEFAULT_SUPABASE_CONFIG; } }
+  loadConfig() { return { ...DEFAULT_SUPABASE_CONFIG }; }
   async saveConfig(config) {
     if (!window.supabase) throw new Error('Supabase could not load. Check your internet connection and refresh the app.');
     if (!config.url || !config.anonKey) throw new Error('Enter both the project URL and publishable key.');
