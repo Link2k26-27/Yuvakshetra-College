@@ -45,3 +45,47 @@ A modern, offline-first web application designed for hostel and campus administr
 1. Simply double-click `launch.bat` or open `index.html` directly in any web browser (Google Chrome, Microsoft Edge, Mozilla Firefox, Safari, Opera).
 2. No Node.js, Python, or npm installation is required.
 3. All student photos, documents, contacts, and headcount history are securely stored in your browser's local **IndexedDB** database and remain saved even after closing the browser.
+
+---
+
+## Supabase sign-in and cloud setup
+
+1. Create a Supabase project, then open its **SQL Editor** and run the script below.
+2. In **Authentication → Users**, create each staff account with an email and password.
+3. Open the app, select **Set up Supabase connection**, and paste the project URL followed by the publishable/anon key (one per line). Both are in **Project Settings → API**.
+4. Sign in with the staff email and password. The app uses Supabase Auth and will store records in your Supabase database; browser storage remains an offline fallback.
+
+```sql
+create extension if not exists pgcrypto;
+
+create table if not exists public.contacts (
+  id uuid primary key default gen_random_uuid(), created_at timestamptz not null default now(),
+  name text not null, category text, phone text not null, "altPhone" text, notes text
+);
+create table if not exists public.students (
+  id uuid primary key default gen_random_uuid(), created_at timestamptz not null default now(),
+  name text not null, batch text, course text, "roomNo" text, phone text,
+  "fatherPhone" text, "motherPhone" text, "photoUrl" text
+);
+create table if not exists public.files (
+  id uuid primary key default gen_random_uuid(), created_at timestamptz not null default now(),
+  name text not null, "typeCategory" text, "fileType" text, size bigint,
+  date text, "dataUrl" text
+);
+create table if not exists public.headcounts (
+  id uuid primary key default gen_random_uuid(), created_at timestamptz not null default now(),
+  timestamp text, y1 integer, y2 integer, y3 integer, sports integer, total integer
+);
+
+alter table public.contacts enable row level security;
+alter table public.students enable row level security;
+alter table public.files enable row level security;
+alter table public.headcounts enable row level security;
+
+create policy "authenticated staff manage contacts" on public.contacts for all to authenticated using (true) with check (true);
+create policy "authenticated staff manage students" on public.students for all to authenticated using (true) with check (true);
+create policy "authenticated staff manage files" on public.files for all to authenticated using (true) with check (true);
+create policy "authenticated staff manage headcounts" on public.headcounts for all to authenticated using (true) with check (true);
+```
+
+For real-time updates across open devices, enable Realtime replication for the four tables from the Supabase Dashboard’s Database → Replication page.

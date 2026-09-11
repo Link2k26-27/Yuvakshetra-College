@@ -248,9 +248,9 @@ class FilesManager {
           </div>
 
           <div class="file-actions">
-            <button class="btn btn-secondary btn-sm" onclick="filesManager.downloadFile(${f.id})">⬇️ Download</button>
-            <button class="btn btn-secondary btn-sm" onclick="filesManager.previewFile(${f.id})">👁️ Preview</button>
-            <button class="btn btn-danger btn-icon btn-sm" title="Delete File" onclick="filesManager.deleteFile(${f.id})">🗑️</button>
+            <button class="btn btn-secondary btn-sm" onclick='filesManager.downloadFile(${JSON.stringify(f.id)})'>⬇️ Download</button>
+            <button class="btn btn-secondary btn-sm" onclick='filesManager.previewFile(${JSON.stringify(f.id)})'>👁️ Preview</button>
+            <button class="btn btn-danger btn-icon btn-sm" title="Delete File" onclick='filesManager.deleteFile(${JSON.stringify(f.id)})'>🗑️</button>
           </div>
         </div>
       `;

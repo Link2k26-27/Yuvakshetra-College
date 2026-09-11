@@ -73,6 +73,43 @@ body {
   overflow-x: hidden;
 }
 
+.auth-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: rgba(239, 246, 255, 0.42);
+  backdrop-filter: blur(12px);
+}
+
+.auth-screen.hidden { display: none; }
+
+.auth-card {
+  width: min(100%, 420px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--glass-shadow-lg);
+}
+
+.auth-card .brand-icon { margin-bottom: 0.25rem; }
+.auth-kicker { font-weight: 800; color: var(--primary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: .08em; }
+.auth-card h2 { font-size: 1.8rem; line-height: 1.15; }
+.auth-copy { color: var(--text-muted); margin-bottom: .5rem; }
+.auth-card label { font-size: .85rem; font-weight: 700; margin-top: .35rem; }
+.password-field { position: relative; }
+.password-field .form-control { padding-right: 4.5rem; }
+.password-field button { position: absolute; right: .45rem; top: 50%; transform: translateY(-50%); border: 0; background: transparent; color: var(--primary); font: inherit; font-weight: 700; cursor: pointer; padding: .3rem; }
+.auth-submit { justify-content: center; margin-top: .75rem; min-height: 44px; }
+.auth-setup-link { border: 0; background: transparent; color: var(--primary); font: inherit; font-weight: 700; cursor: pointer; padding: .5rem; }
+.auth-error { color: #b91c1c; min-height: 1.2rem; font-size: .85rem; }
+
 /* ==========================================================================
    Ambient Glassmorphism Aurora Glow Shapes (Floating in Background)
    ========================================================================== */
@@ -1566,7 +1603,8 @@ body {
   display: none;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  /* Must stay above the sign-in screen so the initial Supabase setup is usable. */
+  z-index: 400;
   padding: 1rem;
   animation: glassFadeIn 0.2s ease;
 }
@@ -1777,6 +1815,19 @@ body {
 }
 
 /* Responsive adjustments */
+@media (max-width: 860px) {
+  .header-container { align-items: stretch; }
+  .brand { width: 100%; }
+  .nav-tabs { order: 3; width: 100%; justify-content: flex-start; border-radius: var(--radius-md); }
+  .header-actions { position: absolute; right: 1rem; top: .85rem; gap: .4rem; }
+  .cloud-status-btn { padding: .45rem .6rem; }
+  .main-container { padding-inline: 1rem; }
+  .section-header { align-items: stretch; flex-direction: column; }
+  .section-actions { width: 100%; flex-wrap: wrap; }
+  .search-wrapper { flex: 1 1 220px; }
+  .home-stats-grid, .home-portals-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media (max-width: 640px) {
   .header-container {
     padding: 0.75rem 1rem;
@@ -1784,7 +1835,7 @@ body {
   
   .nav-tabs {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 
   .nav-tab-btn {
@@ -1815,4 +1866,16 @@ body {
     flex-direction: column;
     gap: 0;
   }
+
+  .brand-text h1 { font-size: 1.05rem; }
+  .brand-text span { font-size: .65rem; }
+  .cloud-status-btn span:not(.status-dot), #sign-out-btn { display: none; }
+  .home-stats-grid, .home-portals-grid, .students-grid, .contacts-grid, .files-grid { grid-template-columns: 1fr; }
+  .home-hero-card { padding: 1.25rem; }
+  .hero-title { font-size: 1.8rem; }
+  .hotline-actions, .section-actions { align-items: stretch; }
+  .section-actions .btn { flex: 1; }
+  .modal-overlay { padding: .5rem; align-items: flex-end; }
+  .modal-content { max-height: 94vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .modal-header, .modal-body, .modal-footer { padding: 1rem; }
 }

@@ -120,12 +120,6 @@ class StudentCounterManager {
       console.warn('Could not persist to localStorage:', e);
     }
 
-    if (window.appDB && window.appDB.isCloud) {
-      window.appDB.firestore.collection('headcounts').doc('live_current').set({
-        ...this.counts,
-        updatedAt: new Date().toISOString()
-      }, { merge: true }).catch(err => console.warn('Could not sync live counter:', err));
-    }
   }
 
   loadPersistedCounts() {
@@ -142,27 +136,6 @@ class StudentCounterManager {
       }
     } catch (e) {
       console.warn('Error loading saved counts:', e);
-    }
-
-    // Cloud Live Real-Time Listener
-    if (window.appDB && window.appDB.isCloud) {
-      window.appDB.firestore.collection('headcounts').doc('live_current').onSnapshot((doc) => {
-        if (doc.exists) {
-          const data = doc.data();
-          this.counts = {
-            y1: Math.max(0, parseInt(data.y1, 10) || 0),
-            y2: Math.max(0, parseInt(data.y2, 10) || 0),
-            y3: Math.max(0, parseInt(data.y3, 10) || 0),
-            sports: Math.max(0, parseInt(data.sports, 10) || 0)
-          };
-          Object.keys(this.inputs).forEach(key => {
-            if (this.inputs[key]) {
-              this.inputs[key].value = this.counts[key];
-            }
-          });
-          this.updateGrandTotal();
-        }
-      });
     }
 
     // Set input values
@@ -249,7 +222,7 @@ class StudentCounterManager {
         <td>${item.sports}</td>
         <td><strong style="color:var(--primary);">${item.total}</strong></td>
         <td>
-          <button class="btn btn-danger btn-icon btn-sm" onclick="studentCounterManager.deleteHistoryItem(${item.id})">🗑️</button>
+          <button class="btn btn-danger btn-icon btn-sm" onclick='studentCounterManager.deleteHistoryItem(${JSON.stringify(item.id)})'>🗑️</button>
         </td>
       </tr>
     `).join('');

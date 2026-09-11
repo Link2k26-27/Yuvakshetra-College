@@ -9,9 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
-  <!-- Google Firebase SDK (Compat Version for Zero-Install Static Web) -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <!-- Ambient Glassmorphism Background Aurora Glows -->
@@ -19,6 +17,22 @@
   <div class="glass-bg-orb orb-2" aria-hidden="true"></div>
   <div class="glass-bg-orb orb-3" aria-hidden="true"></div>
   <div class="glass-bg-orb orb-4" aria-hidden="true"></div>
+
+  <section id="auth-screen" class="auth-screen" aria-labelledby="auth-title">
+    <form id="sign-in-form" class="auth-card">
+      <div class="brand-icon">Y</div>
+      <p class="auth-kicker">Yuvakshetra College</p>
+      <h2 id="auth-title">Welcome back</h2>
+      <p class="auth-copy">Sign in to securely manage hostel and campus information.</p>
+      <label for="sign-in-email">Email address</label>
+      <input id="sign-in-email" class="form-control" type="email" autocomplete="email" required placeholder="you@college.edu">
+      <label for="sign-in-password">Password</label>
+      <div class="password-field"><input id="sign-in-password" class="form-control" type="password" autocomplete="current-password" required placeholder="Enter your password"><button type="button" id="password-toggle" aria-label="Show password">Show</button></div>
+      <p id="auth-error" class="auth-error" role="alert"></p>
+      <button class="btn btn-primary auth-submit" type="submit">Sign in</button>
+      <button class="auth-setup-link" id="auth-setup-btn" type="button">Set up Supabase connection</button>
+    </form>
+  </section>
 
   <!-- Top App Navigation Header -->
   <header class="app-header">
@@ -55,10 +69,11 @@
 
       <!-- Cloud Sync Status Button -->
       <div class="header-actions">
-        <button id="cloud-sync-btn" class="cloud-status-btn disconnected" title="Connect Free Firebase Cloud Sync">
+        <button id="cloud-sync-btn" class="cloud-status-btn disconnected" title="Set up Supabase or sign in">
           <span class="status-dot"></span>
           <span id="cloud-status-text">☁️ Connect Cloud Sync</span>
         </button>
+        <button id="sign-out-btn" class="btn btn-secondary btn-sm" type="button" style="display:none;">Sign out</button>
       </div>
     </div>
   </header>
@@ -488,59 +503,45 @@
        MODALS
        ==================================================================== -->
 
-  <!-- Modal 0: Cloud Sync / Firebase Connection Modal -->
+  <!-- Modal: Supabase cloud connection -->
   <div id="cloud-modal" class="modal-overlay">
     <div class="modal-content" style="max-width: 580px;">
       <div class="modal-header">
-        <h3 class="modal-title">☁️ Real-Time Cloud Database Setup</h3>
+        <h3 class="modal-title">Supabase Cloud Setup</h3>
         <button id="cloud-modal-close" class="modal-close-btn">&times;</button>
       </div>
       <div class="modal-body">
-        
         <div class="cloud-info-box" style="background: rgba(239, 246, 255, 0.8); border: 1px solid rgba(191, 219, 254, 0.8); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.25rem;">
-          <h4 style="font-size: 0.95rem; font-weight: 700; color: #1d4ed8; margin-bottom: 0.35rem;">
-            ⚡ 100% Free Live Sync Across All Devices (Firebase Firestore)
-          </h4>
-          <p style="font-size: 0.825rem; color: #334155; line-height: 1.45;">
-            When connected to Google Firebase, any change you make from your mobile phone (like updating student counts or adding students) will <strong>instantly update on all other devices in real-time</strong> without refreshing!
-          </p>
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: #1d4ed8; margin-bottom: 0.35rem;">Supabase sign-in and cloud database</h4>
+          <p style="font-size: 0.825rem; color: #334155; line-height: 1.45;">Enter your Supabase project URL on the first line and your publishable key on the second. Create staff accounts in Supabase Authentication before signing in.</p>
         </div>
-
         <div style="margin-bottom: 1.25rem;">
           <label style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 0.4rem;">
-            Paste your Firebase Configuration Object / JSON:
+            Paste your Supabase project URL and publishable key:
           </label>
-          <textarea id="firebase-config-input" class="form-control" rows="8" placeholder='Paste your firebaseConfig here, for example:
-{
-  apiKey: "AIzaSy...",
-  authDomain: "yuvakshetra-hub.firebaseapp.com",
-  projectId: "yuvakshetra-hub",
-  storageBucket: "yuvakshetra-hub.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
-}' style="font-family: monospace; font-size: 0.8rem;"></textarea>
+          <textarea id="supabase-config-input" class="form-control" rows="5" placeholder="https://your-project.supabase.co&#10;eyJhbGciOiJI..." style="font-family: monospace; font-size: 0.8rem;"></textarea>
           <small style="color: var(--text-muted); display: block; margin-top: 0.35rem;">
-            From Firebase Console ➔ Project Settings ➔ General ➔ Your Apps (Web App).
+            Find these values in Supabase Dashboard → Project Settings → API.
           </small>
         </div>
 
         <div class="cloud-instructions" style="background: rgba(248, 250, 252, 0.8); border-radius: var(--radius-md); padding: 0.85rem 1rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">
-          <strong>How to get your free credentials in 1 minute:</strong>
+          <strong>One-time Supabase setup:</strong>
           <ol style="padding-left: 1.2rem; margin-top: 0.3rem;">
-            <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: var(--primary); font-weight: 600;">console.firebase.google.com</a> with your Google account.</li>
-            <li>Click <strong>"Create a project"</strong> (Name it <em>Yuvakshetra-College</em>).</li>
-            <li>Click <strong>Build ➔ Firestore Database</strong> ➔ <strong>Create database</strong> (choose "Start in test mode").</li>
-            <li>Go to <strong>Project Settings</strong> (gear icon) ➔ <strong>Add App</strong> (choose Web <code>&lt;/&gt;</code>) ➔ copy the <code>firebaseConfig</code> and paste it above!</li>
+            <li>Use <a href="https://supabase.com/dashboard" target="_blank" rel="noopener" style="color: var(--primary); font-weight: 600;">Supabase Dashboard</a> to create your project.</li>
+            <li>Create a new project.</li>
+            <li>Run the SQL setup from this app’s README in the SQL Editor.</li>
+            <li>Create staff accounts under <strong>Authentication → Users</strong>, then paste the project URL and publishable key above.</li>
           </ol>
         </div>
 
       </div>
       <div class="modal-footer" style="justify-content: space-between;">
-        <button type="button" id="cloud-disconnect-btn" class="btn btn-danger btn-sm" style="display: none;">Disconnect Cloud</button>
+        <button type="button" id="cloud-disconnect-btn" class="btn btn-danger btn-sm" style="display: none;">Forget connection</button>
         <div style="display: flex; gap: 0.5rem; margin-left: auto;">
           <button type="button" id="cloud-modal-cancel" class="btn btn-secondary">Close</button>
-          <button type="button" id="cloud-sync-now-btn" class="btn btn-success" style="display: none;">🔄 Upload Local Data</button>
-          <button type="button" id="cloud-save-btn" class="btn btn-primary">Save & Connect</button>
+          <button type="button" id="cloud-sync-now-btn" class="btn btn-success" style="display: none;">Upload local data</button>
+          <button type="button" id="cloud-save-btn" class="btn btn-primary">Save connection</button>
         </div>
       </div>
     </div>
@@ -708,7 +709,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Scripts -->
-  <script src="js/firebase-config.js"></script>
+  <script src="js/supabase-config.js"></script>
   <script src="js/db.js"></script>
   <script src="js/contacts.js"></script>
   <script src="js/files.js"></script>

@@ -207,8 +207,8 @@ class ContactsManager {
                 <span class="category-tag ${tagClass}">${this.escapeHtml(c.category)}</span>
               </div>
               <div style="display: flex; gap: 4px;">
-                <button class="btn btn-secondary btn-icon btn-sm" title="Edit Contact" onclick="contactsManager.openEditModal(${c.id})">✏️</button>
-                <button class="btn btn-danger btn-icon btn-sm" title="Delete Contact" onclick="contactsManager.deleteContact(${c.id})">🗑️</button>
+                <button class="btn btn-secondary btn-icon btn-sm" title="Edit Contact" onclick='contactsManager.openEditModal(${JSON.stringify(c.id)})'>✏️</button>
+                <button class="btn btn-danger btn-icon btn-sm" title="Delete Contact" onclick='contactsManager.deleteContact(${JSON.stringify(c.id)})'>🗑️</button>
               </div>
             </div>
 

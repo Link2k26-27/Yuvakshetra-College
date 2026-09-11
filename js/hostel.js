@@ -349,8 +349,8 @@ class HostelManager {
           </div>
 
           <div class="student-footer-actions">
-            <button class="btn btn-secondary btn-sm" style="flex:1;" onclick="hostelManager.openEditModal(${s.id})">✏️ Edit</button>
-            <button class="btn btn-danger btn-sm" style="flex:1;" onclick="hostelManager.deleteStudent(${s.id})">🗑️ Delete</button>
+            <button class="btn btn-secondary btn-sm" style="flex:1;" onclick='hostelManager.openEditModal(${JSON.stringify(s.id)})'>✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" style="flex:1;" onclick='hostelManager.deleteStudent(${JSON.stringify(s.id)})'>🗑️ Delete</button>
           </div>
         </div>
       `;
@@ -394,8 +394,8 @@ class HostelManager {
             <div>👩 ${this.escapeHtml(s.motherPhone || 'N/A')}</div>
           </td>
           <td>
-            <button class="btn btn-secondary btn-icon btn-sm" onclick="hostelManager.openEditModal(${s.id})">✏️</button>
-            <button class="btn btn-danger btn-icon btn-sm" onclick="hostelManager.deleteStudent(${s.id})">🗑️</button>
+            <button class="btn btn-secondary btn-icon btn-sm" onclick='hostelManager.openEditModal(${JSON.stringify(s.id)})'>✏️</button>
+            <button class="btn btn-danger btn-icon btn-sm" onclick='hostelManager.deleteStudent(${JSON.stringify(s.id)})'>🗑️</button>
           </td>
         </tr>
       `;
